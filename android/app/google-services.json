@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "398004427536",
+    "firebase_url": "https://koolulam-966ed-default-rtdb.firebaseio.com",
+    "project_id": "koolulam-966ed",
+    "storage_bucket": "koolulam-966ed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:398004427536:android:b6bd0dd50a40fb89ae2395",
+        "android_client_info": {
+          "package_name": "com.koolulam"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "398004427536-ec15tcmmijjh7on0diic9tj02aug9eho.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfLuIzC7s0IfbAdfZ_AaEpzDrJfRkph0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "398004427536-ec15tcmmijjh7on0diic9tj02aug9eho.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

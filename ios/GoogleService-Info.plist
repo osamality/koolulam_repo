@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>398004427536-dn72qjq43akkf9cb6qva9vpsgf49ldch.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.398004427536-dn72qjq43akkf9cb6qva9vpsgf49ldch</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD-JlkQGee59FogKA8lfNyytTC96gbCa7I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>398004427536</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.koolulam</string>
+	<key>PROJECT_ID</key>
+	<string>koolulam-966ed</string>
+	<key>STORAGE_BUCKET</key>
+	<string>koolulam-966ed.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:398004427536:ios:f9068f867fcdd14fae2395</string>
+	<key>DATABASE_URL</key>
+	<string>https://koolulam-966ed-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
