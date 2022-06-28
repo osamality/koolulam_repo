@@ -26,6 +26,8 @@ function UpdateLiveEvent({route, navigation}) {
   const [doorOpen, setDoorOpen] = useState('');
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
+  const [ticketLink, setticketLink] = useState('');
+
   useEffect(() => {
     setDate(route.params?.date);
     setOnline(route.params?.online);
@@ -40,6 +42,7 @@ function UpdateLiveEvent({route, navigation}) {
     setTutorialVideo(route.params?.tutorialVideoId);
     setTutorialName(route.params?.tutorialName);
     setid(route.params?.id);
+    setticketLink(route.params?.ticketLink);
   }, []);
 
   const updateLiveEvent = async () => {
@@ -57,6 +60,7 @@ function UpdateLiveEvent({route, navigation}) {
         tutorialId: tutorialVide,
         tutorialName: tutorialName,
         tutorialDes: tutorialDes,
+        ticketLink: ticketLink,
       });
       console.log('documentUpdated');
       navigation.navigate('OnlineEvent');
@@ -125,6 +129,17 @@ function UpdateLiveEvent({route, navigation}) {
             value={youtubeId}
             onChangeText={text => {
               setYoutubeId(text);
+            }}
+          />
+          <AddEventFields
+            height={50}
+            width={'80%'}
+            tittle={'ticketLink'}
+            placeholder={'ticket Link'}
+            inputHeight={50}
+            value={ticketLink}
+            onChangeText={text => {
+              setticketLink(text);
             }}
           />
           {online == 'online' ? (

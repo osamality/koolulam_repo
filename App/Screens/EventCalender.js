@@ -29,6 +29,7 @@ function EventCalender(props) {
         openTime: doc.data().open,
         startTime: doc.data().start,
         tittle: doc.data().tittle,
+        ticketLink: doc.data().ticketLink,
       };
       list.push(myobj);
       setData(list);
@@ -62,6 +63,7 @@ function EventCalender(props) {
                 openTime: item.openTime,
                 startTime: item.startTime,
                 tittle: item.tittle,
+                ticketLink: item.ticketLink,
               })
             }
           />

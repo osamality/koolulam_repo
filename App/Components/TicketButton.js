@@ -1,12 +1,10 @@
 import React from 'react';
-import {Text, StyleSheet, TouchableOpacity, Linking} from 'react-native';
+import {Text, StyleSheet, TouchableOpacity} from 'react-native';
 import TIcon from 'react-native-vector-icons/Entypo';
 import Theme from '../Utils/Theme';
 function TicketButton(props) {
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => Linking.openURL('https://bit.ly/3COy0Hv')}>
+    <TouchableOpacity style={styles.container} onPress={props.onPress}>
       <Text style={styles.text}>Buy Ticket</Text>
       <TIcon name={'ticket'} color={'white'} size={25} />
     </TouchableOpacity>

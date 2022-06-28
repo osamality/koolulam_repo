@@ -164,10 +164,11 @@ function CreateEvent(props) {
               tutorialId: '',
               tutorialName: '',
               tutorialDes: '',
+              ticketLink: '',
               //image: filePath,
             }}
             validationSchema={
-              type == 'Live event'
+              type == 'Live event' && type == 'Upcomming event'
                 ? liveEventValidationSchema
                 : eventValidationSchema
             }
@@ -326,6 +327,24 @@ function CreateEvent(props) {
                       <ErrorMessage
                         error={errors.tutorialDes}
                         visible={touched.tutorialDes}
+                      />
+                    </View>
+                  ) : null}
+                  {type == 'Upcomming event' && type == 'Live event' ? (
+                    <View>
+                      <AddEventFields
+                        height={50}
+                        width={'80%'}
+                        tittle={'Add Ticket link'}
+                        placeholder={'link'}
+                        inputHeight={50}
+                        value={values.ticketLink}
+                        onChangeText={handleChange('ticketLink')}
+                        onBlur={() => setFieldTouched('ticketLink')}
+                      />
+                      <ErrorMessage
+                        error={errors.ticketLink}
+                        visible={touched.ticketLink}
                       />
                     </View>
                   ) : null}

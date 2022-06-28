@@ -43,6 +43,7 @@ const liveEventValidationSchema = Yup.object().shape({
   tutorialName: Yup.string().required('Required'),
   tutorialId: Yup.string().required('Required'),
   tutorialDes: Yup.string().required('Required'),
+  ticketLink: Yup.string().required('Required'),
 });
 export {
   registerValidationSchema,

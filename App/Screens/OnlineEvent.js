@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, StyleSheet, Image, FlatList } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, Text, StyleSheet, Image, FlatList} from 'react-native';
 import Theme from '../Utils/Theme';
 import Heading from '../Components/Heading';
 import Events from '../Components/Events';
 import Moment from 'moment';
-import { db } from '../firebase/FirebaseConfig';
-import { collection, query, getDocs } from 'firebase/firestore';
+import {db} from '../firebase/FirebaseConfig';
+import {collection, query, getDocs} from 'firebase/firestore';
 
 function OnlineEvent(props) {
   const [data, setdata] = useState([]);
@@ -33,6 +33,7 @@ function OnlineEvent(props) {
         tutorialDes: doc.data().tutorialDes,
         tutorialVideoId: doc.data().tutorialId,
         tutorialName: doc.data().tutorialName,
+        ticketLink: doc.data().ticketLink,
       };
       list.push(myobj);
       setdata(list);
@@ -43,14 +44,14 @@ function OnlineEvent(props) {
     <SafeAreaView style={styles.conatiner}>
       <Heading upperText={'Live events'} />
       <FlatList
-        style={{ marginTop: Theme.hp * 0.04 }}
+        style={{marginTop: Theme.hp * 0.04}}
         data={data}
-        columnWrapperStyle={{ alignItems: 'space-between' }}
+        columnWrapperStyle={{alignItems: 'space-between'}}
         numColumns={2}
         keyExtractor={(item, index) => index.toString()}
         key={item => item.id}
         horizontal={false}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <Events
             image={require('../Assets/4.2.png')}
             date={item.date}
@@ -70,6 +71,7 @@ function OnlineEvent(props) {
                 tutorialDes: item.tutorialDes,
                 tutorialVideoId: item.tutorialVideoId,
                 tutorialName: item.tutorialName,
+                ticketLink: item.ticketLink,
               })
             }
           />

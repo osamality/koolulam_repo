@@ -7,6 +7,7 @@ import {
   ScrollView,
   View,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 
 import BackButton from '../Components/BackButton';
@@ -43,6 +44,7 @@ function PastEventDetail({route, navigation}) {
   const tutorialDes = route.params?.tutorialDes;
   const tutorialVideoId = route.params?.tutorialVideoId;
   const tutorialName = route.params?.tutorialName;
+  const ticketLink = route.params?.ticketLink;
   return (
     <SafeAreaView style={styles.container}>
       <BackButton />
@@ -65,6 +67,7 @@ function PastEventDetail({route, navigation}) {
                   tutorialDes: tutorialDes,
                   tutorialVideoId: tutorialVideoId,
                   tutorialName: tutorialName,
+                  ticketLink: ticketLink,
                 })
               : navigation.navigate('UpdateEvent', {
                   id: id,
@@ -77,12 +80,15 @@ function PastEventDetail({route, navigation}) {
                   openTime: openTime,
                   startTime: startTime,
                   tittle: tittle,
+                  ticketLink: ticketLink,
                 })
           }>
           <Icon name="update" color={'white'} size={30} />
         </TouchableOpacity>
       ) : null}
-      {online == 'online' || online == 'upcomming' ? <TicketButton /> : null}
+      {online == 'online' || online == 'upcomming' ? (
+        <TicketButton onPress={() => Linking.openURL(ticketLink)} />
+      ) : null}
       <ScrollView showsVerticalScrollIndicator={false}>
         <Image source={require('../Assets/4.2.png')} style={styles.image} />
         {online == 'online' ? <LiveTag /> : null}
