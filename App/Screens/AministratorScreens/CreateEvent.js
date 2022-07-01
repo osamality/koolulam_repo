@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -25,20 +25,32 @@ import {
   createLiveEvent,
   createPreviousEvent,
 } from '../../Services/EventService';
-import {Formik} from 'formik';
+import { Formik } from 'formik';
 import {
   eventValidationSchema,
   liveEventValidationSchema,
 } from '../../Utils/ValidationSchema';
+import Helpers from '../../Utils/Helpers';
+import storage from '@react-native-firebase/storage';
 
-function CreateEvent(props) {
+const generateRef = () => {
+  var merchant_reference = "T-" + new Date().getTime();
+  return merchant_reference;
+}
+
+function CreateEvent({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [filePath, setFilePath] = useState();
-  const [type, setType] = useState('');
+  const [type, setType] = useState('Upcomming event');
+  const [imageName, setImageName] = useState(`${generateRef()}`);
 
+  const reference = storage().ref(imageName);
+
+  console.log(type)
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
+
   const requestCameraPermission = async () => {
     if (Platform.OS === 'android') {
       try {
@@ -144,6 +156,39 @@ function CreateEvent(props) {
     });
   };
 
+  useEffect(() => {
+    const pathToFile = `${filePath}`;
+    // uploads file
+    const task = reference.putFile(pathToFile);
+
+    task.on('state_changed', taskSnapshot => {
+      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+    });
+
+    task.then(() => {
+      Helpers.showToastMessage('Image uploaded to the bucket!')
+      console.log('Image uploaded to the bucket!');
+    });
+  }, [filePath])
+
+  const submit = async (values) => {
+    console.log('-=-==-=-', filePath)
+
+    if (filePath == null) {
+      Helpers.showToastMessage('Please Select a Image/Cover for you Event.')
+      return
+    }
+
+    type == 'Upcomming event'
+      ? createUpcomingEvent(values)
+      : type == 'Live event'
+        ? createLiveEvent(values)
+        : type == 'Past event'
+          ? createPreviousEvent(values)
+          : null;
+
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Heading upperText={'Create new Event'} />
@@ -165,7 +210,7 @@ function CreateEvent(props) {
               tutorialName: '',
               tutorialDes: '',
               ticketLink: '',
-              //image: filePath,
+              image: imageName,
             }}
             validationSchema={
               type == 'Live event' && type == 'Upcomming event'
@@ -173,13 +218,7 @@ function CreateEvent(props) {
                 : eventValidationSchema
             }
             onSubmit={values => {
-              type == 'Upcomming event'
-                ? createUpcomingEvent(values)
-                : type == 'Live event'
-                ? createLiveEvent(values)
-                : type == 'Past event'
-                ? createPreviousEvent(values)
-                : null;
+              submit(values)
             }}>
             {({
               handleChange,
@@ -190,24 +229,24 @@ function CreateEvent(props) {
               touched,
             }) => (
               <>
-                <View style={{flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <SelectDropdown
                     buttonStyle={styles.selection}
                     defaultButtonText="Type of event"
                     buttonTextStyle={styles.selectionText}
                     dropdownStyle={styles.dropdown}
-                    rowTextStyle={{color: Theme.secondaryColor}}
+                    rowTextStyle={{ color: Theme.secondaryColor }}
                     data={selection}
                     onSelect={handleChange('type')}
                     buttonTextAfterSelection={(selectedItem, index) => {
+                      console.log('-==--=-selectedItem', selectedItem)
                       if (selectedItem == 'Live event') {
-                        setType('Upcomming event');
+                        setType('Live event');
                       } else if (selectedItem == 'Upcomming event') {
                         setType('Upcomming event');
                       } else if (selectedItem == 'Past event') {
                         setType('Past event');
                       }
-
                       return selectedItem;
                     }}
                     rowTextForSelection={(item, index) => {
@@ -330,7 +369,7 @@ function CreateEvent(props) {
                       />
                     </View>
                   ) : null}
-                  {type == 'Upcomming event' && type == 'Live event' ? (
+                  {type == 'Upcomming event' || type == 'Live event' ? (
                     <View>
                       <AddEventFields
                         height={50}
@@ -397,7 +436,7 @@ function CreateEvent(props) {
                   <TouchableOpacity
                     style={styles.cont}
                     onPress={toggleModal}
-                    //onPress={() => props.navigation.navigate('CameraExample')}
+                  //onPress={() => props.navigation.navigate('CameraExample')}
                   >
                     <CIcon
                       name="device-camera"
@@ -406,7 +445,7 @@ function CreateEvent(props) {
                     />
                   </TouchableOpacity>
                   {filePath ? (
-                    <Image source={{uri: filePath}} style={styles.image} />
+                    <Image source={{ uri: filePath }} style={styles.image} />
                   ) : (
                     <Text style={styles.imageText}>Image Is Required</Text>
                   )}
@@ -416,8 +455,8 @@ function CreateEvent(props) {
                       type == 'Upcomming event'
                         ? 'Add Upcomming Event'
                         : type == 'Live event'
-                        ? 'Add Live event'
-                        : 'Add Past event'
+                          ? 'Add Live event'
+                          : 'Add Past event'
                     }
                     top={Theme.hp * 0.02}
                     bottom={Theme.hp * 0.07}
@@ -433,7 +472,7 @@ function CreateEvent(props) {
             onBackdropPress={() => setModalVisible(false)}>
             <View style={styles.modal}>
               <TouchableOpacity
-                style={{alignItems: 'center'}}
+                style={{ alignItems: 'center' }}
                 onPress={() => {
                   captureImage('photo');
                 }}>
@@ -451,7 +490,7 @@ function CreateEvent(props) {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={{alignItems: 'center'}}
+                style={{ alignItems: 'center' }}
                 onPress={() => {
                   chooseFile('photo');
                 }}>

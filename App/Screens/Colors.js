@@ -1,10 +1,14 @@
 import React from 'react';
-import {SafeAreaView, Text, StyleSheet, View, FlatList} from 'react-native';
+import { SafeAreaView, Text, StyleSheet, View, FlatList } from 'react-native';
 import Heading from '../Components/Heading';
 import ColorComponent from '../Components/ColorComponent';
 import Theme from '../Utils/Theme';
 
 const colorList = [
+  {
+    name: 'All',
+    colorCOde: 'gray',
+  },
   {
     name: 'Red',
     colorCOde: '#FF0000',
@@ -69,6 +73,7 @@ const colorList = [
     name: 'Pink',
     colorCOde: 'pink',
   },
+
 ];
 function Colors(props) {
   return (
@@ -78,14 +83,17 @@ function Colors(props) {
         style={styles.list}
         data={colorList}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <ColorComponent
             colorName={item.name}
             backgroundColor={item.colorCOde}
+            colorList={colorList}
             onPress={() =>
               props.navigation.navigate('ColorView', {
                 name: item.name,
                 code: item.colorCOde,
+                colorList: colorList
+
               })
             }
           />

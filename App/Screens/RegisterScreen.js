@@ -18,10 +18,10 @@ import MiddleText from '../Components/MiddleText';
 import SocialAccounts from '../Components/SocialAccounts';
 import ErrorMessage from '../Components/ErrorMessage';
 import SelectDropdown from 'react-native-select-dropdown';
-import {register} from '../Services/AuthService';
-import {Formik} from 'formik';
+import { register } from '../Services/AuthService';
+import { Formik } from 'formik';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import {registerValidationSchema} from '../Utils/ValidationSchema';
+import { registerValidationSchema } from '../Utils/ValidationSchema';
 
 const selection = ['Customer', 'Admin'];
 
@@ -40,7 +40,7 @@ function RegisterScreen(props) {
 
           <Formik
             initialValues={{
-              role: '',
+              role: 'Customer',
               firstName: '',
               lastName: '',
               email: '',
@@ -62,14 +62,14 @@ function RegisterScreen(props) {
             }) => (
               <>
                 <View style={styles.inputContainer}>
-                  <View style={styles.selectionCont}>
+                  {/* <View style={styles.selectionCont}>
                     <Icon name="user-shield" color={'white'} size={20} />
                     <SelectDropdown
                       buttonStyle={styles.selection}
                       defaultButtonText="Select User"
                       buttonTextStyle={styles.selectionText}
                       dropdownStyle={styles.dropdown}
-                      rowTextStyle={{color: Theme.secondaryColor}}
+                      rowTextStyle={{ color: Theme.secondaryColor }}
                       data={selection}
                       onSelect={handleChange('role')}
                       buttonTextAfterSelection={(selectedItem, index) => {
@@ -84,9 +84,9 @@ function RegisterScreen(props) {
                       name="caret-down"
                       color={'white'}
                       size={30}
-                      style={{marginLeft: Theme.wp * -0.07}}
+                      style={{ marginLeft: Theme.wp * -0.07 }}
                     />
-                  </View>
+                  </View> */}
                   <EditInput
                     placeholder={'First name'}
                     name={'person-outline'}

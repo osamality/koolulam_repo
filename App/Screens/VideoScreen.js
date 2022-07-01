@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   Platform,
   SafeAreaView,
@@ -39,7 +39,7 @@ export default class VideoScreen extends Component {
             this.player = ref;
           }}
           topBar={TopBar}
-          videoId="Z1LmpiIGYNs"
+          videoId={youtubelink ? youtubelink : "Z1LmpiIGYNs"}
           autoPlay
           onFullScreen={this.onFullScreen}
           onStart={() => console.log('onStart')}
@@ -55,7 +55,7 @@ export default class VideoScreen extends Component {
   }
 }
 
-const TopBar = ({play, fullScreen}) => (
+const TopBar = ({ play, fullScreen }) => (
   <View
     style={{
       alignSelf: 'flex-start',

@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, Image, FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, StyleSheet, Image, FlatList } from 'react-native';
 import Theme from '../Utils/Theme';
 import Heading from '../Components/Heading';
 import Events from '../Components/Events';
 import Moment from 'moment';
-import {db} from '../firebase/FirebaseConfig';
-import {collection, query, getDocs} from 'firebase/firestore';
+import { db } from '../firebase/FirebaseConfig';
+import { collection, query, getDocs } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 function OnlineEvent(props) {
   const [data, setdata] = useState([]);
@@ -13,12 +14,17 @@ function OnlineEvent(props) {
     getLiveEvents();
   }, []);
   const getLiveEvents = async () => {
-    const userRef = collection(db, 'LiveEvent');
-    const q = query(userRef);
-    const querySnapshot = await getDocs(q);
+
+    const users = await firestore().collection('LiveEvent').get();
+    console.log('users >>', users)
+
+    // const userRef = collection(db, 'LiveEvent');
+    // const q = query(userRef);
+    // const querySnapshot = await getDocs(q);
+    // console.log('=-=--=-=-==->>>>querySnapshot', querySnapshot)
     var list = [];
-    querySnapshot.forEach(doc => {
-      console.log(doc.id, ' => ', doc.data());
+    users.forEach(doc => {
+      console.log(doc, ' => ', doc.data());
       const id = doc.id;
       var myobj = {
         id: id,
@@ -34,30 +40,32 @@ function OnlineEvent(props) {
         tutorialVideoId: doc.data().tutorialId,
         tutorialName: doc.data().tutorialName,
         ticketLink: doc.data().ticketLink,
+        image: doc.data().image,
       };
       list.push(myobj);
-      setdata(list);
       //console.log('list', list);
     });
+    setdata(list);
   };
   return (
     <SafeAreaView style={styles.conatiner}>
       <Heading upperText={'Live events'} />
       <FlatList
-        style={{marginTop: Theme.hp * 0.04}}
+        style={{ marginTop: Theme.hp * 0.04 }}
         data={data}
-        columnWrapperStyle={{alignItems: 'space-between'}}
+        columnWrapperStyle={{ alignItems: 'space-between' }}
         numColumns={2}
         keyExtractor={(item, index) => index.toString()}
         key={item => item.id}
         horizontal={false}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <Events
-            image={require('../Assets/4.2.png')}
+            image={item.image}
+            // require('../Assets/4.2.jpg')
             date={item.date}
             onPress={() =>
               props.navigation.navigate('PastEventDetail', {
-                // image: item.image,
+                image: item.image,
                 id: item.id,
                 date: item.date,
                 online: 'online',

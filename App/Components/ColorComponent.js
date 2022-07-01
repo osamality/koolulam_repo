@@ -1,15 +1,32 @@
-import React from 'react';
-import {Text, StyleSheet, View, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 
 import Theme from '../Utils/Theme';
 
 function ColorComponent(props) {
+  const [color, setColor] = useState(props.colorList[0].colorCOde)
+  // useEffect(() => {
+  //   setInterval(() => {
+  //     setColor(props.colorList[Math.floor(Math.random() * props.colorList.length)])
+  //   }, 2000)
+  // })
   return (
-    <TouchableOpacity
-      onPress={props.onPress}
-      style={[styles.colorList, {backgroundColor: props.backgroundColor}]}>
-      <Text style={styles.colorText}>{props.colorName}</Text>
-    </TouchableOpacity>
+    <>
+      {props.colorName == 'All' ?
+        <TouchableOpacity
+          onPress={props.onPress}
+          style={[styles.colorList, { backgroundColor: color.colorCOde }]}>
+          <Text style={styles.colorText}>{props.colorName}</Text>
+        </TouchableOpacity>
+        :
+        <TouchableOpacity
+          onPress={props.onPress}
+          style={[styles.colorList, { backgroundColor: props.backgroundColor }]}>
+          <Text style={styles.colorText}>{props.colorName}</Text>
+        </TouchableOpacity>
+      }
+
+    </>
   );
 }
 

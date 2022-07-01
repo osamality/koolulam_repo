@@ -33,14 +33,14 @@ const CustomSidebarMenu = props => {
     setEmail(email);
     setRole(role);
 
-    console.log(name, email, user)
+    // console.log(name, email, user)
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Theme.primaryColor }}>
       {/*Top Large Image */}
       <Image
-        source={require('../Assets/image.png')}
+        source={require('../Assets/image.jpg')}
         style={styles.sideMenuProfileIcon}
       />
       <Text style={styles.userName}>{name}</Text>
@@ -54,7 +54,7 @@ const CustomSidebarMenu = props => {
           text={'Home Page'}
           onPress={() => {
             setColor('home');
-            props.navigation.navigate('MainPage');
+            props.navigation.navigate('FirstPage');
           }}
         />
         <SideBarSelection

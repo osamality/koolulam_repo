@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   Text,
@@ -20,8 +20,9 @@ import TicketButton from '../Components/TicketButton';
 import Theme from '../Utils/Theme';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import storage from '@react-native-firebase/storage';
 
-function PastEventDetail({route, navigation}) {
+function PastEventDetail({ route, navigation }) {
   const [role, setRole] = useState('');
   useEffect(() => {
     getRole();
@@ -44,7 +45,21 @@ function PastEventDetail({route, navigation}) {
   const tutorialDes = route.params?.tutorialDes;
   const tutorialVideoId = route.params?.tutorialVideoId;
   const tutorialName = route.params?.tutorialName;
-  const ticketLink = route.params?.ticketLink;
+  const ticketLink = route.params?.ticketLink ? route.params.ticketLink : 'https://www.koolulam.com/';
+  const image = route.params?.image;
+
+  const [url, setUrl] = useState('')
+
+  useEffect(() => {
+    getImage()
+  }, [])
+
+  const getImage = async () => {
+    const uri = await storage().ref(`${image}`).getDownloadURL();
+    console.log('urlurlurlurl', uri)
+    setUrl(uri)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <BackButton />
@@ -54,34 +69,34 @@ function PastEventDetail({route, navigation}) {
           onPress={() =>
             online == 'online'
               ? navigation.navigate('UpdateLiveEvent', {
-                  id: id,
-                  date: date,
-                  online: online,
-                  description: description,
-                  endTime: endTime,
-                  idYT: idYT,
-                  location: location,
-                  openTime: openTime,
-                  startTime: startTime,
-                  tittle: tittle,
-                  tutorialDes: tutorialDes,
-                  tutorialVideoId: tutorialVideoId,
-                  tutorialName: tutorialName,
-                  ticketLink: ticketLink,
-                })
+                id: id,
+                date: date,
+                online: online,
+                description: description,
+                endTime: endTime,
+                idYT: idYT,
+                location: location,
+                openTime: openTime,
+                startTime: startTime,
+                tittle: tittle,
+                tutorialDes: tutorialDes,
+                tutorialVideoId: tutorialVideoId,
+                tutorialName: tutorialName,
+                ticketLink: ticketLink,
+              })
               : navigation.navigate('UpdateEvent', {
-                  id: id,
-                  date: date,
-                  online: online,
-                  description: description,
-                  endTime: endTime,
-                  idYT: idYT,
-                  location: location,
-                  openTime: openTime,
-                  startTime: startTime,
-                  tittle: tittle,
-                  ticketLink: ticketLink,
-                })
+                id: id,
+                date: date,
+                online: online,
+                description: description,
+                endTime: endTime,
+                idYT: idYT,
+                location: location,
+                openTime: openTime,
+                startTime: startTime,
+                tittle: tittle,
+                ticketLink: ticketLink,
+              })
           }>
           <Icon name="update" color={'white'} size={30} />
         </TouchableOpacity>
@@ -90,7 +105,7 @@ function PastEventDetail({route, navigation}) {
         <TicketButton onPress={() => Linking.openURL(ticketLink)} />
       ) : null}
       <ScrollView showsVerticalScrollIndicator={false}>
-        <Image source={require('../Assets/4.2.png')} style={styles.image} />
+        <Image source={{ uri: url }} style={styles.image} />
         {online == 'online' ? <LiveTag /> : null}
         <Text style={styles.title}>{tittle}</Text>
         <OutlineButton
@@ -115,18 +130,19 @@ function PastEventDetail({route, navigation}) {
             }}
           />
         ) : null}
-        <Text style={styles.description}>{description}</Text>
-        <EventTittle text={'Event Details'} />
-        <EventDetailText date={'Date:' + date} />
-        <EventDetailText date={'Location:' + location} />
+        {/* <Text style={styles.description}>{description}</Text> */}
+        <View style={{ marginTop: 20 }}>
 
-        <View>
+          <EventTittle text={'Event Details'} />
+          <EventDetailText date={'Date:' + date} />
+          <EventDetailText date={'Location:' + location} />
+
           <EventDetailText date={'Doors Open: ' + openTime} />
           <EventDetailText date={'Event Start: ' + startTime} />
           <EventDetailText date={'Event Ends: ' + endTime} />
         </View>
         {online == 'upcomming' ? (
-          <View>
+          <View style={{ marginTop: 20 }}>
             <EventTittle text={'Please Note.!'} />
             <Text style={styles.note}>
               *The event will be filmed and edited into a video shared on social

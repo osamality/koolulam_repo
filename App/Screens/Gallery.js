@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text, StyleSheet, Image, FlatList} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, Text, StyleSheet, Image, FlatList } from 'react-native';
 import Theme from '../Utils/Theme';
 import Heading from '../Components/Heading';
 import Events from '../Components/Events';
-import {db} from '../firebase/FirebaseConfig';
-import {collection, query, getDocs} from 'firebase/firestore';
+import { db } from '../firebase/FirebaseConfig';
+import { collection, query, getDocs } from 'firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 function Gallery(props) {
   const [data, setData] = useState([]);
@@ -13,11 +14,15 @@ function Gallery(props) {
     getPastEvents();
   }, []);
   const getPastEvents = async () => {
-    const userRef = collection(db, 'PreviousEvents');
-    const q = query(userRef);
-    const querySnapshot = await getDocs(q);
+
+
+    const users = await firestore().collection('PreviousEvents').get();
+    console.log('users >>', users)
+    // const userRef = collection(db, 'PreviousEvents');
+    // const q = query(userRef);
+    // const querySnapshot = await getDocs(q);
     var list = [];
-    querySnapshot.forEach(doc => {
+    users.forEach(doc => {
       //console.log(doc.id, ' => ', doc.data());
       const id = doc.id;
       var myobj = {
@@ -30,28 +35,29 @@ function Gallery(props) {
         openTime: doc.data().open,
         startTime: doc.data().start,
         tittle: doc.data().tittle,
+        image: doc.data().image,
       };
       list.push(myobj);
-      setData(list);
-      //console.log('list', list);
+      console.log('list', list);
     });
+    setData(list);
   };
   return (
     <SafeAreaView style={styles.conatiner}>
       <Heading upperText={'All the previous events'} />
       <FlatList
-        style={{marginTop: Theme.hp * 0.04}}
+        style={{ marginTop: Theme.hp * 0.04 }}
         data={data}
-        columnWrapperStyle={{justifyContent: 'space-between'}}
+        columnWrapperStyle={{ justifyContent: 'space-between' }}
         numColumns={2}
         keyExtractor={(item, index) => item.id}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <Events
-            image={require('../Assets/4.6.png')}
+            image={item.image}
             date={item.date}
             onPress={() =>
               props.navigation.navigate('PastEventDetail', {
-                //image: item.image,
+                image: item.image,
                 id: item.id,
                 date: item.date,
                 description: item.description,

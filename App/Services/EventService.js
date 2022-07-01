@@ -1,8 +1,10 @@
-import {db} from '../firebase/FirebaseConfig';
-import {doc, setDoc} from 'firebase/firestore';
+import { db } from '../firebase/FirebaseConfig';
+import { doc, setDoc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Helpers from '../Utils/Helpers';
 
 const createPreviousEvent = async data => {
+  console.log('createPreviousEvent>>>>>', data)
   try {
     let autoId = '';
     const CHARS =
@@ -16,12 +18,14 @@ const createPreviousEvent = async data => {
       delete data.tutorialDes;
       await setDoc(doc(db, 'PreviousEvents', autoId), data);
       console.log('setPreviousEvents');
+      Helpers.showToastMessage('Event Created')
     }
   } catch (error) {
     console.log(error);
   }
 };
 const createLiveEvent = async data => {
+  console.log('createLiveEvent??>>>>>', data)
   try {
     let autoId = '';
     const CHARS =
@@ -31,11 +35,13 @@ const createLiveEvent = async data => {
     }
     await setDoc(doc(db, 'LiveEvent', autoId), data);
     console.log('setLiveEvent');
+    Helpers.showToastMessage('Event Created')
   } catch (error) {
     console.log(error);
   }
 };
 const createUpcomingEvent = async data => {
+  // console.log('createUpcomingEvent>>>', data)
   try {
     let autoId = '';
     const CHARS =
@@ -47,12 +53,14 @@ const createUpcomingEvent = async data => {
       delete data.tutorialId;
       delete data.tutorialName;
       delete data.tutorialDes;
+      console.log('createUpcomingEvent>>>', autoId, data)
       await setDoc(doc(db, 'UpcomingEvent', autoId), data);
-      console.log('setUpcomingEvent');
+      Helpers.showToastMessage('Event Created')
+      console.log('UpcomingEvent---')
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-export {createUpcomingEvent, createLiveEvent, createPreviousEvent};
+export { createUpcomingEvent, createLiveEvent, createPreviousEvent };
