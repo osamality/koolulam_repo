@@ -23,7 +23,6 @@ function Gallery(props) {
     // const querySnapshot = await getDocs(q);
     var list = [];
     users.forEach(doc => {
-      //console.log(doc.id, ' => ', doc.data());
       const id = doc.id;
       var myobj = {
         id: id,
@@ -38,7 +37,6 @@ function Gallery(props) {
         image: doc.data().image,
       };
       list.push(myobj);
-      console.log('list', list);
     });
     setData(list);
   };
@@ -51,27 +49,30 @@ function Gallery(props) {
         columnWrapperStyle={{ justifyContent: 'space-between' }}
         numColumns={2}
         keyExtractor={(item, index) => item.id}
-        renderItem={({ item }) => (
-          <Events
-            image={item.image}
-            date={item.date}
-            onPress={() =>
-              props.navigation.navigate('PastEventDetail', {
-                image: item.image,
-                id: item.id,
-                date: item.date,
-                description: item.description,
-                endTime: item.endTime,
-                idYT: item.idYT,
-                location: item.location,
-                openTime: item.openTime,
-                startTime: item.startTime,
-                tittle: item.tittle,
-                online: 'past',
-              })
-            }
-          />
-        )}
+        renderItem={({ item }) => {
+          console.log(item.idYT)
+          return (
+            <Events
+              image={item.image}
+              date={item.date}
+              onPress={() =>
+                props.navigation.navigate('PastEventDetail', {
+                  image: item.image,
+                  id: item.id,
+                  date: item.date,
+                  description: item.description,
+                  endTime: item.endTime,
+                  idYT: item.idYT,
+                  location: item.location,
+                  openTime: item.openTime,
+                  startTime: item.startTime,
+                  tittle: item.tittle,
+                  online: 'past',
+                })
+              }
+            />
+          )
+        }}
       />
     </SafeAreaView>
   );

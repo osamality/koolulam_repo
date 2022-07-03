@@ -2,6 +2,7 @@ import { db } from '../firebase/FirebaseConfig';
 import { doc, setDoc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Helpers from '../Utils/Helpers';
+import firestore from '@react-native-firebase/firestore';
 
 const createPreviousEvent = async data => {
   console.log('createPreviousEvent>>>>>', data)
@@ -16,12 +17,18 @@ const createPreviousEvent = async data => {
       delete data.tutorialId;
       delete data.tutorialName;
       delete data.tutorialDes;
-      await setDoc(doc(db, 'PreviousEvents', autoId), data);
-      console.log('setPreviousEvents');
-      Helpers.showToastMessage('Event Created')
+
+      firestore()
+        .collection('PreviousEvents')
+        .add(data)
+        .then(() => { console.log('Event Created'); });
+
+      // await setDoc(doc(db, 'PreviousEvents', autoId), data);
+      console.log('setPreviousEvents Event Created');
+      Helpers.showToastMessage('Event Created.')
     }
   } catch (error) {
-    console.log(error);
+    console.log('errorerror', error);
   }
 };
 const createLiveEvent = async data => {
@@ -33,7 +40,14 @@ const createLiveEvent = async data => {
     for (let i = 0; i < 20; i++) {
       autoId += CHARS.charAt(Math.floor(Math.random() * CHARS.length));
     }
-    await setDoc(doc(db, 'LiveEvent', autoId), data);
+    firestore()
+      .collection('LiveEvent')
+      .add(data)
+      .then(() => {
+        console.log('Event Created');
+      });
+
+    // await setDoc(doc(db, 'LiveEvent', autoId), data);
     console.log('setLiveEvent');
     Helpers.showToastMessage('Event Created')
   } catch (error) {
@@ -54,7 +68,14 @@ const createUpcomingEvent = async data => {
       delete data.tutorialName;
       delete data.tutorialDes;
       console.log('createUpcomingEvent>>>', autoId, data)
-      await setDoc(doc(db, 'UpcomingEvent', autoId), data);
+      firestore()
+        .collection('LiveEvent')
+        .add(data)
+        .then(() => {
+          console.log('Event Created');
+        });
+
+      // await setDoc(doc(db, 'UpcomingEvent', autoId), data);
       Helpers.showToastMessage('Event Created')
       console.log('UpcomingEvent---')
     }

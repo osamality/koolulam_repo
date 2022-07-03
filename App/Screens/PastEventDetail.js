@@ -108,6 +108,7 @@ function PastEventDetail({ route, navigation }) {
         <Image source={{ uri: url }} style={styles.image} />
         {online == 'online' ? <LiveTag /> : null}
         <Text style={styles.title}>{tittle}</Text>
+        {console.log('idYTidYTidYTidYT>>>', idYT)}
         <OutlineButton
           text={'View Youtube Video'}
           onPress={() => {

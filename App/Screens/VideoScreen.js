@@ -30,7 +30,9 @@ export default class VideoScreen extends Component {
   render() {
     const title = this.props.route.params.title;
     const description = this.props.route.params.description;
-    const youtubelink = this.props.route.params.idYT;
+    const youtubelink = this.props.route.params.youtubelink;
+
+    console.log('youtubelink', youtubelink, this.props.route.params.youtubelink)
     return (
       <SafeAreaView style={styles.container}>
         <YoutubePlayer
@@ -39,7 +41,7 @@ export default class VideoScreen extends Component {
             this.player = ref;
           }}
           topBar={TopBar}
-          videoId={youtubelink ? youtubelink : "Z1LmpiIGYNs"}
+          videoId={youtubelink ? youtubelink : "te7mXWqqjPI"}
           autoPlay
           onFullScreen={this.onFullScreen}
           onStart={() => console.log('onStart')}

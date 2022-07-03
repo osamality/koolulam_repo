@@ -156,28 +156,28 @@ function CreateEvent({ navigation }) {
     });
   };
 
-  useEffect(() => {
-    const pathToFile = `${filePath}`;
-    // uploads file
-    const task = reference.putFile(pathToFile);
+  // useEffect(() => {
+  //   const pathToFile = `${filePath}`;
+  //   // uploads file
+  //   const task = reference.putFile(pathToFile);
 
-    task.on('state_changed', taskSnapshot => {
-      console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
-    });
+  //   task.on('state_changed', taskSnapshot => {
+  //     console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+  //   });
 
-    task.then(() => {
-      Helpers.showToastMessage('Image uploaded to the bucket!')
-      console.log('Image uploaded to the bucket!');
-    });
-  }, [filePath])
+  //   task.then(() => {
+  //     Helpers.showToastMessage('Image uploaded to the bucket!')
+  //     console.log('Image uploaded to the bucket!');
+  //   });
+  // }, [filePath])
 
   const submit = async (values) => {
-    console.log('-=-==-=-', filePath)
+    console.log('-=-==-=-', values)
 
-    if (filePath == null) {
-      Helpers.showToastMessage('Please Select a Image/Cover for you Event.')
-      return
-    }
+    // if (filePath == null) {
+    //   Helpers.showToastMessage('Please Select a Image/Cover for you Event.')
+    //   return
+    // }
 
     type == 'Upcomming event'
       ? createUpcomingEvent(values)
