@@ -8,6 +8,8 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import firestore from '@react-native-firebase/firestore';
+
 
 const register = async data => {
   try {
@@ -22,6 +24,7 @@ const register = async data => {
       delete data.confirmPassword;
       await setDoc(doc(db, 'users', user.uid), data);
       const authData = { ...data, id: user.uid };
+
       // await AsyncStorage.setItem('@User', JSON.stringify(authData));
       // await AsyncStorage.setItem('@id', user.uid);
 
@@ -45,6 +48,18 @@ const register = async data => {
   }
 };
 
+function lower(obj) {
+  for (var prop in obj) {
+    if (typeof obj[prop] === 'string') {
+      obj[prop] = obj[prop].toLowerCase();
+    }
+    if (typeof obj[prop] === 'object') {
+      lower(obj[prop]);
+    }
+  }
+  return obj;
+}
+
 const login = async data => {
   try {
     const userCredentials = await signInWithEmailAndPassword(
@@ -53,20 +68,48 @@ const login = async data => {
       data.password,
     );
     const user = userCredentials.user;
+
+    console.log('user::', user)
     if (user) {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const authData = { ...docSnap.data(), id: user.uid };
-        await AsyncStorage.setItem('@User', JSON.stringify(authData));
-        await AsyncStorage.setItem('@id', user.uid);
-        await AsyncStorage.setItem('firstName', authData.firstName);
-        await AsyncStorage.setItem('firstName', authData.firstName);
-        await AsyncStorage.setItem('email', authData.email);
-        await AsyncStorage.setItem('language', authData.language);
-        await AsyncStorage.setItem('city', authData.city);
-        await AsyncStorage.setItem('role', authData.role);
-        await AsyncStorage.setItem('id', authData.id);
+      const users = await firestore().collection('users').get();
+      // console.log('users >>', users)
+      var list = {};
+      users.forEach(doc => {
+        let usr = lower(doc.data())
+        console.log('doc.data().email == user.email', usr.email, user.email, usr.email == user.email)
+        if (usr.email == user.email) {
+          list = {
+            uid: user.uid,
+            firstName: usr.firstName,
+            lastName: usr.lastName,
+            email: usr.email,
+            language: usr.language,
+            city: usr.city,
+            role: usr.role,
+            // id: usr.id,
+          };
+        }
+      });
+      console.log('list :::::, list', list)
+
+
+      // const docRef = doc(db, 'users', user.uid);
+      // const docSnap = await getDoc(docRef);
+      // console.log('usersusersusers::', users)
+      if (list) {
+        // const authData = { ...users, id: user.uid };
+
+        // console.log('authData::', authData)
+
+        // await AsyncStorage.setItem('@User', JSON.stringify(list));
+        await AsyncStorage.setItem('@id', list.uid);
+        await AsyncStorage.setItem('firstName', list.firstName);
+        await AsyncStorage.setItem('lastName', list.lastName);
+        await AsyncStorage.setItem('email', list.email);
+        await AsyncStorage.setItem('language', list.language);
+        await AsyncStorage.setItem('city', list.city);
+        await AsyncStorage.setItem('role', list.role);
+        // await AsyncStorage.setItem('id', list.id);
       } else {
         alert('User does not exist.');
         const deletedUser = await deleteUser(user);
@@ -78,6 +121,7 @@ const login = async data => {
     } else if (error.message === 'Firebase: Error (auth/user-not-found).') {
       alert('User does not exist!!.');
     } else {
+      console.log(error)
       alert(error.message);
     }
   }

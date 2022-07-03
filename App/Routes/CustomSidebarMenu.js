@@ -33,14 +33,14 @@ const CustomSidebarMenu = props => {
     setEmail(email);
     setRole(role);
 
-    // console.log(name, email, user)
+    console.log(name, email, role)
   };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Theme.primaryColor }}>
       {/*Top Large Image */}
       <Image
-        source={require('../Assets/image.jpg')}
+        source={require('../Assets/Koolulam_Logo_White.png')}
         style={styles.sideMenuProfileIcon}
       />
       <Text style={styles.userName}>{name}</Text>
@@ -61,7 +61,7 @@ const CustomSidebarMenu = props => {
           categorey="two"
           icon={'bar-chart'}
           color={color == 'event' ? Theme.secondaryColor : 'white'}
-          text={'Online Event'}
+          text={'Live Event'}
           size={23}
           onPress={() => {
             setColor('event');
@@ -90,7 +90,7 @@ const CustomSidebarMenu = props => {
             props.navigation.navigate('EventCalender');
           }}
         />
-        {role == 'Admin' ? (
+        {role == 'Admin' || role == 'admin' ? (
           <SideBarSelection
             categorey="one"
             icon={'plus'}
